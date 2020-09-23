@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  h1= pageHeader.title
+  small &nbsp;#{pageHeader.strapLine}
+  p 
+    a(href='/post')= post.title
+  p= post.postContent
+  p= post.createdOn
+  p= post.user
+  
+  h2 Comments
+
+  each comment in comments
+    p= comment.commentContent
+    p= comment.createdOn
+    p= comment.user              
+
+  p= sidebar

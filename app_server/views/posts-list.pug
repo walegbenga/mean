@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  h1= pageHeader.title
+  small &nbsp;#{pageHeader.strapLine}
+
+  each post in posts
+    p
+      a(href='/post')= post.title            
+      
+  p= sidebar
