@@ -16,6 +16,12 @@ export class NodeCommDataService {
 
   private apiBaseUrl = 'http://localhost:3000/api';
 
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Authorization': `Bearer ${this.storage.getItem('node-comm-token')}`
+    })
+  };
+
    public getPosts(): Promise<Post[]> {
     const url: string = `${this.apiBaseUrl}/posts`;
     console.log(url);
@@ -85,6 +91,7 @@ export class NodeCommDataService {
       .catch(this.handleError);
   }
 
+  /*
   public addVoteUpByPost(postId: string, formData: Post): Promise<Post> {
     const url: string = `${this.apiBaseUrl}/posts/${postId}/voteup`;
     console.log(url);
@@ -114,6 +121,29 @@ export class NodeCommDataService {
       .post(url, formData, httpOptions)
       .toPromise()
       .then(response => response as Post)
+      .catch(this.handleError);
+  }
+  */
+  
+  public updatePost(post: Post): void {
+    const url = `${this.apiBaseUrl}/posts/${post._id}`;
+
+    this.http
+      .put(url, post, this.httpOptions)
+      .toPromise()
+      .then(response => response as Post)
+      .catch(this.handleError);
+    
+    // not caring at this point about the return type
+  }
+
+  public updateComment(parentId: string, comment: Comment): void {
+    const url = `${this.apiBaseUrl}/posts/${parentId}/comments/${comment._id}`;
+
+    this.http
+      .put(url, comment, this.httpOptions)
+      .toPromise()
+      .then(response => response as Comment)
       .catch(this.handleError);
   }
 

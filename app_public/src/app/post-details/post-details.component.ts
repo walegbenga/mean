@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Post, Comment } from '../post';
 import { NodeCommDataService } from '../node-comm-data.service';
 import { AuthenticationService } from '../authentication.service';
@@ -8,10 +8,79 @@ import { AuthenticationService } from '../authentication.service';
   templateUrl: './post-details.component.html',
   styleUrls: ['./post-details.component.css']
 })
-export class PostDetailsComponent implements OnInit {
+export class PostDetailsComponent {
   @Input() post: Post;
-  //@Input() comment: Comment;
+
+  public formVisible: boolean = false;
+  public formError: string;
+
   public newComment: Comment = {
+    _id: null,
+    user: '',
+    commentContent: '',
+    voteDown: 0,
+    voteUp: 0,
+    createdOn: null
+  };
+
+  constructor(
+    private nodeCommDataService: NodeCommDataService,
+    private authenticationService: AuthenticationService
+  ) { }
+  
+  public downVotePost(): any {
+    this.post.voteDown += 1
+    this.updatePost()
+  }
+
+  public upVotePost(): any {
+    this.post.voteUp += 1
+    this.updatePost()
+  }
+
+  public onCommentSubmit(): void {
+    this.formError = '';
+    this.newComment.user = this.getUsername();
+    if (this.formIsValid()) {
+      this.nodeCommDataService
+        .addCommentByPostId(this.post._id, this.newComment)
+        .then((comment: Comment) => {
+          let comments = this.post.comments.slice(0);
+          comments.unshift(comment);
+          this.post.comments = comments;
+          this.resetAndHideCommentForm();
+        });
+    } else {
+      this.formError = 'All fields requried, please try again';
+    }
+  }
+
+  public isLoggedIn(): boolean {
+    return this.authenticationService.isLoggedIn();
+  }
+
+  private getUsername(): string {
+    const { email } = this.authenticationService.getCurrentUser();
+    return email ? email : 'Guest';
+  }
+
+  private formIsValid(): boolean {
+    return !!(this.newComment.user && this.newComment.commentContent)
+  }
+
+  private resetAndHideCommentForm(): void {
+    this.formVisible = false;
+    this.newComment.user = '';
+    this.newComment.commentContent = '';
+  }
+
+  private updatePost(): void {
+    this.nodeCommDataService.updatePost(this.post)
+  }
+
+  /*
+  public newComment: Comment = {
+    _id: null,
     user: '',
     commentContent: '',
     voteDown: 0,
@@ -80,4 +149,5 @@ export class PostDetailsComponent implements OnInit {
     const { email } = this.authenticationService.getCurrentUser();
     return email ? email : 'Guest';
   }
+  */
 }

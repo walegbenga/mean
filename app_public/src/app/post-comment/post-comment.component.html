@@ -1,0 +1,45 @@
+<div class="row card m-2 p-0">
+  <div class="card-body">
+    <div class="text-right"><small class="reviewTimestamp">{{ comment.createdOn | date : 'd MMMM yyyy'}}</small></div>
+    <div [innerHTML]="comment.commentContent | htmlLineBreaks"></div>
+  </div>
+  <div class="card-footer" style="height: 85px;">
+    <div class="row">
+      <div class='col-3'>
+        <i class="fa fa-arrow-circle-down fa-2x" aria-hidden="true" title="Down vote" (click)="downVoteComment()"></i> <span class="ml-2">{{ comment.voteDown }}</span><br /><small>down votes</small>
+      </div>
+      <div class="col text-center">Comment Votes</div>
+      <div class=" col-3 text-right">
+        <span class="mr-2">{{ comment.voteUp }}</span> <i class="fa fa-arrow-circle-up fa-2x" aria-hidden="true" title="Up vote" (click)="upVoteComment()"></i> <br /><small>up votes </small>
+      </div>
+    </div>
+  </div>
+</div>
+<!--
+<div *ngFor="let comment of post.comments | mostRecentFirst" class="row review">
+          <div class="col-12 no-gutters review-header">
+            <div class="col-12">
+              <p [innerHTML]="comment.commentContent | htmlLineBreaks"></p>
+              <p [innerHTML]="comment.voteUp"> likes</p>
+              <p [innerHTML]="comment.voteDown"></p>
+            </div>
+            <form (ngSubmit)="onCommentVoteUpSubmit()">
+              <hr>
+                <div class="col-12">
+                  <input type="input" hidden="true" class="form-control" id="id" name="id" [(ngModel)]="newComment._id" value="{{ comment._id }}">
+                  <input class="form-control" id="id" name="id" [(ngModel)]="newComment._id" value="{{ comment._id }}">
+                  <button type="submit" class="btn btn-primary float-right" style="margin-left:15px">Vote up</button>
+                </div>
+            </form>
+        
+            <form (ngSubmit)="onCommentVoteDownSubmit()">
+              <hr>
+                <div class="col-12">
+                    <input class="form-control" id="_id" name="_id" [(ngModel)]="newComment._id" value="comment._id">
+                  <button type="submit" class="btn btn-primary float-right" style="margin-left:15px">Vote down</button>
+                </div>
+            </form>
+            
+          </div>
+        </div>
+      -->
