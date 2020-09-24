@@ -19,6 +19,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { FrameworkComponent } from './framework/framework.component';
 import { MostRecentFirstPipe } from './most-recent-first.pipe';
 import { HtmlLineBreaksPipe } from './html-line-breaks.pipe';
+import { PostCommentComponent } from './post-comment/post-comment.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { HtmlLineBreaksPipe } from './html-line-breaks.pipe';
     SidebarComponent,
     FrameworkComponent,
     MostRecentFirstPipe,
-    HtmlLineBreaksPipe
+    HtmlLineBreaksPipe,
+    PostCommentComponent
   ],
   imports: [
     BrowserModule,

@@ -144,6 +144,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "node-comm"
+    }
+  },
+  "defaultProject": "node-comm",
+  "cli": {
+    "analytics": false
+  }
 }

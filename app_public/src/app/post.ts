@@ -3,6 +3,7 @@ export class Comment {
   commentContent: string;
   voteUp: number;
   voteDown: number;
+  createdOn: Date;
   _id: string;
 }
 

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Post = mongoose.model('Post');
 const User = mongoose.model('User');
+const _ = require('lodash');
 
 const getAuthor = (req, res, callback) => {
   if (req.body && req.body.user) {
@@ -157,7 +158,7 @@ const commentsReadOne = (req, res) => {
     });
 };
 
-const commentsUpdateOne = (req, res) => {
+const commentsUpdateOne = async (req, res) => {
   if (!req.params.postid || !req.params.commentid) {
     return res
       .status(404)
@@ -165,8 +166,14 @@ const commentsUpdateOne = (req, res) => {
         "message": "Not found, postid and commentid are both required"
       });
   }
+
+  const post = await Post.findById(req.params.postid)
+  post.comments.splice(_.findIndex(post.comments, { _id: mongoose.Types.ObjectId(req.body._id) }), 1, req.body)
+
+  return await post.save(post)
+  /*
   Post
-    .findById(req.params.postid)
+    .findById
     .select('comments')
     .exec((err, post) => {
       if (!post) {
@@ -212,6 +219,7 @@ const commentsUpdateOne = (req, res) => {
           });
       }
     });
+    */
 };
 
 const commentsDeleteOne = (req, res) => {

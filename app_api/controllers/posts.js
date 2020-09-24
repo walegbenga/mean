@@ -128,7 +128,7 @@ const postsReadOne = (req, res) => {
     });
 };
 
-const postsUpdateOne = (req, res) => {
+const postsUpdateOne = async (req, res) => {
   if (!req.params.postid) {
     return res
       .status(404)
@@ -136,6 +136,10 @@ const postsUpdateOne = (req, res) => {
         "message": "Not found, postid is required"
       });
   }
+
+  return await Post.findByIdAndUpdate(req.params.postid, req.body, { new: true })
+  
+  /*
   Post
     .findById(req.params.postid)
     .select('-comments')
@@ -166,6 +170,7 @@ const postsUpdateOne = (req, res) => {
         }
       });
     });
+    */
 };
 
 const postsDeleteOne = (req, res) => {
